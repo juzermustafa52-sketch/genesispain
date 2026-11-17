@@ -1,176 +1,371 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
 const conditions = [
-  'Back and neck pain', 'Migraines and headaches', 'Joint pain', 'Complex regional pain syndrome',
-  'Spinal stenosis', 'Whiplash', 'Shingles-related pain', 'Sports and accident injuries',
+  'Low back pain',
+  'Migraines & headaches',
+  'Neck pain',
+  'Joint pain',
+  'Complex regional pain syndrome',
+  'Spinal stenosis',
+  'Whiplash',
+  'Shingles-related pain',
+  'Sports injuries',
+  'Accident-related pain',
 ];
 
-const procedures = [
-  ['Epidural steroid injections', 'Targeted injections used to address pain and inflammation around the spine.'],
-  ['Nerve blocks & ablation', 'Diagnostic and therapeutic procedures tailored to your symptoms and care plan.'],
-  ['Spinal cord stimulation', 'Evaluation and trial options for people living with persistent pain.'],
-  ['Joint & trigger point injections', 'In-office procedures for selected joint, muscle, and soft-tissue conditions.'],
+const treatmentCards = [
+  {
+    title: 'Epidural steroid injections',
+    body: 'Targeted pain relief for inflammation and irritation near the spine.',
+  },
+  {
+    title: 'Nerve blocks & ablation',
+    body: 'Diagnostic and therapeutic procedures designed around your symptoms.',
+  },
+  {
+    title: 'Spinal cord stimulation',
+    body: 'Advanced treatment options for persistent pain that has not improved with conservative care.',
+  },
+  {
+    title: 'Joint & trigger point injections',
+    body: 'Treatment strategies for selected joints, muscles, and soft-tissue pain.',
+  },
 ];
 
 const values = [
-  ['Care', 'Thoughtful attention to your health, history, and individual needs.'],
-  ['Compassion', 'A supportive, respectful experience at every step of your care.'],
-  ['Communication', 'Clear explanations so you can make informed decisions about treatment.'],
-  ['Commitment', 'A team focused on helping you work toward lasting improvement.'],
-  ['Competence', 'Experienced pain specialists using evidence-informed treatment options.'],
-];
+  ['Care', 'Personalized attention centered on your health history, preferences, and goals.'],
+  ['Compassion', 'A supportive experience designed to help you feel heard and understood.'],
+  ['Communication', 'Clear education and guidance so you know your treatment options and next steps.'],
+  ['Commitment', 'A care plan built around long-term improvement and sustained relief.'],
+  ['Competence', 'Experienced specialists focused on evidence-informed pain management.'],
+] as const;
 
-const services = [
-  ['Non-surgical care', 'Personalized options focused on pain relief without surgery.'],
-  ['Minimally invasive procedures', 'A range of interventional treatments recommended when appropriate.'],
-  ['Individual treatment plans', 'Care shaped around your condition, goals, and response to treatment.'],
-];
+const resources = [
+  ['Patient forms', 'Information to help you prepare before your appointment.'],
+  ['Insurance questions', 'Coverage guidance for your treatment and care plan.'],
+  ['Location details', 'Conveniently located in Overland Park, Kansas.'],
+  ['Contact the clinic', 'Reach our team by phone or email for support.'],
+] as const;
 
 function ArrowIcon() {
-  return <svg aria-hidden="true" viewBox="0 0 20 20" className="arrow-icon"><path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true" className="arrow-icon">
+      <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 }
 
-function MenuIcon({ open }: { open: boolean }) {
-  return <span className={`menu-icon${open ? ' open' : ''}`} aria-hidden="true"><i /><i /><i /></span>;
-}
-
-function CallButton({ children = 'Call for an appointment' }: { children?: React.ReactNode }) {
-  return <a className="button button-orange" href="tel:+19138714688">{children}<ArrowIcon /></a>;
+function CallButton({ light = false, children = 'Request an Appointment' }: { light?: boolean; children?: React.ReactNode }) {
+  return (
+    <a className={`button ${light ? 'button-light' : 'button-primary'}`} href="tel:+19138714688">
+      {children}
+      <ArrowIcon />
+    </a>
+  );
 }
 
 export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const nodes = document.querySelectorAll<HTMLElement>('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      nodes.forEach((node) => node.classList.add('is-visible'));
-      return;
-    }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
-  }, []);
-
-  const closeMenu = () => setMenuOpen(false);
-
   return (
     <>
       <div className="utility-bar">
         <div className="container utility-inner">
-          <a className="utility-address" href="https://maps.google.com/?q=6700+W+121st+St+Suite+300+Overland+Park+KS+66209" target="_blank" rel="noreferrer">
-            <span className="pin-icon" aria-hidden="true">⌖</span> 6700 W 121st St, Suite 300, Overland Park, KS 66209
+          <a href="https://maps.google.com/?q=6700+W+121st+St+Suite+300+Overland+Park+KS+66209" target="_blank" rel="noreferrer" className="utility-link utility-location">
+            6700 W 121st St, Suite 300, Overland Park, KS 66209
           </a>
-          <div className="utility-links"><a href="tel:+19138714688">913.871.4688</a><span aria-hidden="true">|</span><a href="mailto:admin@genesispain.com">admin@genesispain.com</a></div>
+          <div className="utility-links">
+            <a href="tel:+19138714688">(913) 871-4688</a>
+            <span aria-hidden="true">|</span>
+            <a href="mailto:admin@genesispain.com">admin@genesispain.com</a>
+          </div>
         </div>
       </div>
 
       <header className="site-header">
         <div className="container header-inner">
-          <a className="brand" href="#home" aria-label="Genesis Pain Clinic home" onClick={closeMenu}>
-            <span className="brand-symbol" aria-hidden="true"><span>G</span><i /></span>
-            <span className="brand-name">GENESIS<small>PAIN CLINIC</small></span>
+          <a href="#home" className="brand" aria-label="Genesis Pain Clinic home">
+            <span className="brand-mark" aria-hidden="true">G</span>
+            <span className="brand-text">
+              <strong>Genesis</strong>
+              <small>Pain Clinic</small>
+            </span>
           </a>
-          <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen((open) => !open)}>
-            <MenuIcon open={menuOpen} />
-          </button>
-          <nav id="main-navigation" className={`main-nav${menuOpen ? ' nav-open' : ''}`} aria-label="Main navigation">
-            <a href="#about" onClick={closeMenu}>About Genesis</a>
-            <details className="nav-dropdown">
-              <summary>What We Treat <span className="chevron" aria-hidden="true" /></summary>
-              <div className="dropdown-panel">
-                <a href="#conditions" onClick={closeMenu}>Conditions we treat</a>
-                <a href="#treatments" onClick={closeMenu}>Treatments & procedures</a>
-              </div>
-            </details>
-            <a href="#approach" onClick={closeMenu}>Our Approach</a>
-            <a href="#patients" onClick={closeMenu}>For Patients</a>
-            <a href="#contact" onClick={closeMenu}>Contact</a>
-            <a className="button button-orange nav-cta" href="tel:+19138714688" onClick={closeMenu}>Appointments <ArrowIcon /></a>
+
+          <nav className="main-nav" aria-label="Main navigation">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#conditions">Conditions</a>
+            <a href="#treatments">Treatments</a>
+            <a href="#patients">For Patients</a>
+            <a href="#contact">Contact</a>
+            <CallButton light>Appointments</CallButton>
           </nav>
         </div>
       </header>
 
       <main id="home">
         <section className="hero">
-          <div className="hero-backdrop" aria-hidden="true" />
-          <div className="container hero-layout">
-            <div className="hero-copy reveal">
-              <p className="eyebrow"><span /> A better path forward</p>
-              <h1>Are you suffering<br className="desktop-break" /> from pain?</h1>
-              <p className="hero-lede">Compassionate, personalized pain care to help you move toward a healthier life.</p>
-              <div className="same-day"><span className="same-day-mark">✓</span><strong>Same Day Appointments Available!</strong></div>
-              <div className="hero-actions"><CallButton>Schedule an appointment</CallButton><a className="text-link" href="#about">Discover Genesis <ArrowIcon /></a></div>
-              <p className="hero-note">Call our team today to discuss your care options.</p>
+          <div className="container hero-grid">
+            <div className="hero-copy">
+              <p className="eyebrow">A better path forward</p>
+              <h1>Are you suffering from pain?</h1>
+              <p className="hero-text">
+                Compassionate, personalized pain management designed around the source of your discomfort.
+              </p>
+              <div className="hero-promo">
+                <span className="promo-check" aria-hidden="true">✓</span>
+                <span>Same Day Appointments Available!</span>
+              </div>
+              <div className="hero-actions">
+                <CallButton>Request an Appointment</CallButton>
+                <a className="text-link" href="#about">
+                  Learn about Genesis <ArrowIcon />
+                </a>
+              </div>
             </div>
-            <div className="hero-visual reveal" aria-label="A caring, comfortable clinical environment">
-              <div className="hero-photo" role="img" aria-label="Doctor speaking with a patient in a bright medical clinic" />
-              <div className="hero-stamp"><span className="stamp-small">GENESIS PAIN CLINIC</span><strong>Reviving<br />wellness.</strong><span className="stamp-line" /></div>
-              <div className="hero-caption"><span className="caption-dot" /> Care that starts with listening</div>
+
+            <div className="hero-visual" aria-label="Doctor and patient in a professional clinic environment">
+              <div className="hero-photo" />
+              <div className="floating-tag">
+                <span>Compassionate care</span>
+                <strong>Reviving wellness.</strong>
+              </div>
             </div>
           </div>
-          <div className="hero-bottom container"><span>PERSONALIZED PAIN MANAGEMENT</span><span className="hero-bottom-line" /><span>OVERLAND PARK, KANSAS</span></div>
         </section>
 
         <section className="intro section" id="about">
           <div className="container intro-grid">
-            <div className="intro-heading reveal"><p className="eyebrow"><span /> About Genesis</p><h2>Reviving wellness.<br /><em>Restoring possibility.</em></h2></div>
-            <div className="intro-copy reveal"><p className="lead">We believe life can be bigger than pain.</p><p>Genesis Pain Clinic provides compassionate, personalized care for people living with acute and chronic pain. Our team takes time to understand your experience and explore thoughtful options for extended relief.</p><p>We focus on non-drug, non-surgical, and minimally invasive approaches whenever appropriate—always with care shaped around you.</p><a className="underlined-link" href="#approach">Get to know our approach <ArrowIcon /></a></div>
+            <div className="intro-copy-block">
+              <p className="eyebrow eyebrow-dark">About Genesis</p>
+              <h2>
+                Reviving wellness.<br />
+                Restoring possibility.
+              </h2>
+            </div>
+            <div className="intro-copy">
+              <p className="intro-lead">We believe life can be bigger than pain.</p>
+              <p>
+                Genesis Pain Clinic provides personalized care for adults living with acute and chronic pain.
+                We focus on understanding the source of discomfort and creating a treatment plan designed around
+                your goals, your health history, and the type of relief you want to achieve.
+              </p>
+              <p>
+                Our methods combine advanced pain management, compassionate communication, and a thoughtful approach
+                to care—without relying on a one-size-fits-all model.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="values-section section" id="approach">
+        <section className="values-section section">
           <div className="container">
-            <div className="section-title centered reveal"><p className="eyebrow"><span /> What matters to us</p><h2>Care that sees the <em>whole person.</em></h2><p>Advanced pain care, guided by empathy and grounded in your individual needs.</p></div>
-            <div className="values-grid">{values.map(([title, body], index) => <article className="value-card reveal" key={title}><span className="value-number">0{index + 1}</span><h3>{title}</h3><p>{body}</p><span className="value-rule" /></article>)}</div>
+            <div className="section-head center">
+              <p className="eyebrow">What matters to us</p>
+              <h2>
+                Care that sees the <em>whole person.</em>
+              </h2>
+            </div>
+            <div className="values-grid">
+              {values.map(([title, text], index) => (
+                <article className="value-card" key={title}>
+                  <span className="value-number">0{index + 1}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
         <section className="what-we-do section">
           <div className="container what-grid">
-            <div className="what-photo reveal" role="img" aria-label="Modern, welcoming care setting"><div className="photo-label"><span>GENESIS PAIN CLINIC</span><strong>A partner in your<br />journey to relief.</strong></div></div>
-            <div className="what-copy reveal"><p className="eyebrow"><span /> What we do</p><h2>Thoughtful care.<br /><em>Meaningful relief.</em></h2><p>Our specialists bring together advanced medicine, technology, and a personal touch to create a care plan that fits your needs. We’ll walk you through your options and help you understand what comes next.</p><div className="service-list">{services.map(([title, body], index) => <div className="service-row" key={title}><span className="service-index">0{index + 1}</span><div><h3>{title}</h3><p>{body}</p></div><ArrowIcon /></div>)}</div></div>
+            <div className="what-photo" aria-label="Comfortable care environment" />
+            <div className="what-copy">
+              <p className="eyebrow">What we do</p>
+              <h2>
+                Thoughtful care.<br />
+                Meaningful relief.
+              </h2>
+              <p>
+                Our specialists focus on targeted, evidence-informed treatment options that are chosen for the
+                individual patient—not just the diagnosis. We work to reduce pain while helping you improve your
+                quality of life and daily function.
+              </p>
+              <div className="resource-list">
+                {resources.map(([title, text], index) => (
+                  <div className="resource-row" key={title}>
+                    <span className="resource-index">0{index + 1}</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                    </div>
+                    <ArrowIcon />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="conditions-section section" id="conditions">
-          <div className="container conditions-layout">
-            <div className="conditions-heading reveal"><p className="eyebrow"><span /> How we can help</p><h2>When pain gets in the way, <em>we’re here.</em></h2><p>We evaluate and care for a range of pain conditions. Your provider will work with you to understand your symptoms and discuss appropriate next steps.</p><a className="underlined-link" href="#contact">Talk with our team <ArrowIcon /></a></div>
-            <div className="conditions-list reveal">{conditions.map((condition, index) => <a href="#contact" className="condition-item" key={condition}><span>{String(index + 1).padStart(2, '0')}</span><strong>{condition}</strong><ArrowIcon /></a>)}</div>
+        <section className="conditions section" id="conditions">
+          <div className="container conditions-grid">
+            <div className="conditions-copy">
+              <p className="eyebrow">How we can help</p>
+              <h2>
+                When pain gets in the way,<br />
+                <em>we’re here.</em>
+              </h2>
+              <p>
+                We evaluate a broad range of pain conditions and tailor recommendations around the source of your
+                symptoms, your goals, and your lifestyle.
+              </p>
+            </div>
+            <div className="condition-list">
+              {conditions.map((condition, index) => (
+                <a href="#contact" className="condition-item" key={condition}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{condition}</strong>
+                  <ArrowIcon />
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="treatments-section section" id="treatments">
+        <section className="treatments section" id="treatments">
           <div className="container">
-            <div className="section-title reveal"><p className="eyebrow"><span /> Treatment options</p><h2>Personalized pain management, <em>with a plan.</em></h2><p>Treatment recommendations are based on your individual evaluation, needs, and goals.</p></div>
-            <div className="treatment-grid">{procedures.map(([title, body], index) => <article className="treatment-card reveal" key={title}><span className="treatment-icon" aria-hidden="true">{['✳', '⌁', '◉', '✚'][index]}</span><span className="treatment-number">0{index + 1}</span><h3>{title}</h3><p>{body}</p><a href="#contact" aria-label={`Ask us about ${title}`}><ArrowIcon /></a></article>)}</div>
-            <p className="treatment-disclaimer">Not every treatment is right for every patient. Your provider will discuss potential benefits, risks, and alternatives with you.</p>
+            <div className="section-head">
+              <p className="eyebrow">Treatment options</p>
+              <h2>
+                Personalized pain management,<br />
+                <em>with a plan.</em>
+              </h2>
+            </div>
+
+            <div className="treatment-grid">
+              {treatmentCards.map((item, index) => (
+                <article className="treatment-card" key={item.title}>
+                  <span className="treatment-icon" aria-hidden="true">
+                    {['✦', '◌', '◎', '✚'][index]}
+                  </span>
+                  <span className="treatment-number">0{index + 1}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                  <a href="#contact" aria-label={`Ask us about ${item.title}`}>
+                    <ArrowIcon />
+                  </a>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="patient-section section" id="patients">
-          <div className="container patient-banner reveal"><div><p className="eyebrow"><span /> For patients</p><h2>Let’s take the<br /><em>next step together.</em></h2><p>Have questions about an appointment, insurance, or what to expect? Our team is here to help you get started.</p><CallButton>Call 913.871.4688</CallButton></div><div className="patient-art" aria-hidden="true"><span className="art-circle art-one" /><span className="art-circle art-two" /><span className="art-cross">+</span><span className="art-word">care<br />comes<br />first.</span></div></div>
+        <section className="patients section" id="patients">
+          <div className="container patient-panel">
+            <div>
+              <p className="eyebrow">For patients</p>
+              <h2>
+                Let’s take the next step<br />
+                <em>together.</em>
+              </h2>
+              <p>
+                Reach out to learn more about symptoms, insurance coverage, treatment options, or scheduling an
+                appointment.
+              </p>
+              <CallButton>Call (913) 871-4688</CallButton>
+            </div>
+            <div className="patient-art" aria-hidden="true">
+              <span className="art-circle art-one" />
+              <span className="art-circle art-two" />
+              <span className="art-plus">+</span>
+              <span className="art-word">care</span>
+            </div>
+          </div>
         </section>
 
-        <section className="insurance-section"><div className="container insurance-inner"><span className="insurance-mark" aria-hidden="true">✓</span><div><p className="eyebrow"><span /> Insurance</p><h2>Questions about coverage?</h2><p>We accept most commercial insurance plans. Please contact our office to confirm your specific coverage and discuss any questions.</p></div><a className="button button-outline" href="tel:+19138714688">Ask our team <ArrowIcon /></a></div></section>
+        <section className="insurance" aria-label="Insurance information">
+          <div className="container insurance-inner">
+            <span className="insurance-check" aria-hidden="true">✓</span>
+            <div>
+              <p className="eyebrow">Insurance</p>
+              <h2>Questions about coverage?</h2>
+            </div>
+            <a className="button button-outline" href="tel:+19138714688">
+              Ask our team <ArrowIcon />
+            </a>
+          </div>
+        </section>
 
-        <section className="contact-section section" id="contact">
-          <div className="container contact-grid"><div className="contact-copy reveal"><p className="eyebrow"><span /> Visit Genesis</p><h2>Here when you’re <em>ready.</em></h2><p>Reach out to schedule an appointment or speak with our team about getting started.</p><CallButton>913.871.4688</CallButton><a className="contact-email" href="mailto:admin@genesispain.com">admin@genesispain.com</a></div><div className="contact-details reveal"><div className="detail-block"><span className="detail-label">FIND US</span><a target="_blank" rel="noreferrer" href="https://maps.google.com/?q=6700+W+121st+St+Suite+300+Overland+Park+KS+66209">6700 W 121st St, Suite 300<br />Overland Park, KS 66209 <ArrowIcon /></a></div><div className="detail-block"><span className="detail-label">OFFICE HOURS</span><p>Monday – Friday<br />8:00 am – 4:30 pm</p></div><div className="detail-block"><span className="detail-label">GET IN TOUCH</span><p><a href="tel:+19138714688">913.871.4688</a><br /><a href="mailto:admin@genesispain.com">admin@genesispain.com</a></p></div></div></div>
+        <section className="contact section" id="contact">
+          <div className="container contact-grid">
+            <div className="contact-copy">
+              <p className="eyebrow">Visit Genesis</p>
+              <h2>
+                Here when you’re<br />
+                <em>ready.</em>
+              </h2>
+              <p>
+                Reach out to schedule a consultation or speak with our team about treatment options and next steps.
+              </p>
+              <CallButton>913.871.4688</CallButton>
+              <a className="contact-email" href="mailto:admin@genesispain.com">admin@genesispain.com</a>
+            </div>
+
+            <div className="contact-details">
+              <div className="detail-block">
+                <span className="detail-label">Find us</span>
+                <a href="https://maps.google.com/?q=6700+W+121st+St+Suite+300+Overland+Park+KS+66209" target="_blank" rel="noreferrer">
+                  6700 W 121st St, Suite 300<br />Overland Park, KS 66209
+                </a>
+              </div>
+              <div className="detail-block">
+                <span className="detail-label">Office hours</span>
+                <p>Monday – Friday<br />8:00 AM – 4:30 PM</p>
+              </div>
+              <div className="detail-block">
+                <span className="detail-label">Get in touch</span>
+                <p>
+                  <a href="tel:+19138714688">(913) 871-4688</a><br />
+                  <a href="mailto:admin@genesispain.com">admin@genesispain.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <div className="container footer-main"><a className="brand footer-brand" href="#home" aria-label="Genesis Pain Clinic home"><span className="brand-symbol" aria-hidden="true"><span>G</span><i /></span><span className="brand-name">GENESIS<small>PAIN CLINIC</small></span></a><p className="footer-tagline">Reviving wellness.<br />Helping you move forward.</p><div className="footer-nav"><div><span className="footer-label">EXPLORE</span><a href="#about">About Genesis</a><a href="#approach">Our approach</a><a href="#conditions">Conditions</a><a href="#treatments">Treatments</a></div><div><span className="footer-label">CONTACT</span><a href="tel:+19138714688">913.871.4688</a><a href="mailto:admin@genesispain.com">admin@genesispain.com</a><a target="_blank" rel="noreferrer" href="https://maps.google.com/?q=6700+W+121st+St+Suite+300+Overland+Park+KS+66209">Overland Park, Kansas</a></div></div></div>
-        <div className="container footer-bottom"><span>© {new Date().getFullYear()} Genesis Pain Clinic</span><span>Care. Compassion. Communication. Commitment. Competence.</span><a href="#home">Back to top ↑</a></div>
+        <div className="container footer-inner">
+          <div className="footer-brand">
+            <a href="#home" className="brand footer-brand-link" aria-label="Genesis Pain Clinic home">
+              <span className="brand-mark" aria-hidden="true">G</span>
+              <span className="brand-text">
+                <strong>Genesis</strong>
+                <small>Pain Clinic</small>
+              </span>
+            </a>
+            <p>Reviving wellness.<br />Helping you move forward.</p>
+          </div>
+
+          <div className="footer-nav">
+            <div>
+              <span className="detail-label">Explore</span>
+              <a href="#about">About Genesis</a>
+              <a href="#conditions">Conditions</a>
+              <a href="#treatments">Treatments</a>
+            </div>
+            <div>
+              <span className="detail-label">Contact</span>
+              <a href="tel:+19138714688">(913) 871-4688</a>
+              <a href="mailto:admin@genesispain.com">admin@genesispain.com</a>
+              <a href="https://maps.google.com/?q=6700+W+121st+St+Suite+300+Overland+Park+KS+66209" target="_blank" rel="noreferrer">Overland Park, KS</a>
+            </div>
+          </div>
+        </div>
+
+        <div className="container footer-bottom">
+          <span>© {new Date().getFullYear()} Genesis Pain Clinic</span>
+          <span>Care. Compassion. Communication. Commitment. Competence.</span>
+          <a href="#home">Back to top ↑</a>
+        </div>
       </footer>
     </>
   );
