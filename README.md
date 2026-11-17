@@ -1,6 +1,6 @@
-# Genesis Pain Clinic Demo
+# Genesis Pain Clinic
 
-Next.js App Router demo, configured for Vercel deployment.
+Next.js App Router site for Genesis Pain Clinic.
 
 ## Run locally
 
@@ -11,14 +11,17 @@ npm run dev
 
 Open http://localhost:3000.
 
-## Deploy to Vercel
+## Build
 
-Import `juzermustafa52-sketch/genesispain` from the Vercel dashboard. Vercel should detect Next.js automatically. Use the default build command (`next build`) and leave the output directory unset.
+```bash
+npm run build
+npm start
+```
 
-## Before production
+## Deployment
 
-- Replace the placeholder canonical/social URLs and `example.com` sitemap address with the verified production domain.
-- Review all copy, clinic details, statistics, and testimonials for accuracy and authorization.
-- Replace demo imagery with clinic-owned or properly licensed assets.
-- Change the robots policy to allow indexing only when the production site is ready.
-- Add 301 redirects only after providing an approved old-URL to new-URL mapping.
+The project is configured for deployment to Vercel. Update `siteUrl` in `app/layout.tsx`, `app/robots.ts`, and `app/sitemap.ts` if the production domain changes.
+
+## Content and assets
+
+Clinic address, phone, email, and office hours are shown on the website. Confirm all clinical service details, insurance coverage, and marketing language with the clinic before using this recreation in a public or patient-facing setting. Images are loaded from Unsplash and should be replaced with authorized clinic imagery for an accurate brand reproduction.

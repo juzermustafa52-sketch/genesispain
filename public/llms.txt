@@ -1,3 +1,12 @@
-# Demo site guidance
+# Genesis Pain Clinic
 
-This is a non-production demonstration. Do not rely on this file as medical advice or an authoritative clinic directory. Verify the content and replace the placeholder domain before launch.
+Genesis Pain Clinic provides personalized pain management care in Overland Park, Kansas. The clinic's approach emphasizes compassion, communication, and individualized care.
+
+## Website
+- Address: 6700 W 121st St, Suite 300, Overland Park, KS 66209
+- Phone: 913.871.4688
+- Email: admin@genesispain.com
+- Hours: Monday–Friday, 8:00 am–4:30 pm
+
+## Topics
+Pain management, conditions treated, interventional procedures, patient support, insurance, and appointment information.
