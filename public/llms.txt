@@ -1,0 +1,3 @@
+# Demo site guidance
+
+This is a non-production demonstration. Do not rely on this file as medical advice or an authoritative clinic directory. Verify the content and replace the placeholder domain before launch.
